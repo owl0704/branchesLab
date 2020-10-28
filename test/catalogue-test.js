@@ -59,5 +59,27 @@ describe("Catalogue", () => {
         const result = cat.checkReorders();
         expect(result.productIds).to.be.empty;
       });
+    });
+    describe("search",() => {
+      it("should return the products whose price obey the criteria", () => {;
+        cat.addProduct(new Product("c1", "Product1",4,5,6));
+        cat.addProduct(new Product("c2", "Product2",2,5,3.6));
+        cat.addProduct(new Product("c3", "Product3",6,8,2.1));
+        cat.addProduct(new Product("c4", "Product4",5,8,25.5));
+        const result = cat.search({price:25});
+        expect(result.target).to.have.lengthOf(6);
+        
+      });
+      it("should return the products contain the keyword",  () => {
+        cat.addProduct(new Product("c5", "apple",4,5,6));
+        cat.addProduct(new Product("c6", "red apple",2,5,3.6));
+        cat.addProduct(new Product("c7", "orange",6,8,2.1));
+        cat.addProduct(new Product("c8", "kiwi",5,8,25.5));
+          const result = cat.search({keyword:'app'});
+          expect(result.target).to.have.lengthOf(2);
+      });
+      it("should return Bad search",  () => {
+            expect(() => (cat.search({key:"widget"})).to.throw("Bad Search"));
+    })
     });      
 });
